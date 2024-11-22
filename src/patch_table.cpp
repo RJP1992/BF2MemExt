@@ -170,7 +170,6 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x3319b2 + 0x1, 0x9cfdb8, ES_SOUND_START, true}, // Snd::Engine::Open
                      patch{0x3319bc + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
                      patch{0x3317f7 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
-                     patch{0xdf1 + 0x6, 0x9d0038, ES_SOUND_START + 0x280, true},  // possibly unnecessary
                   },
             },
          },
