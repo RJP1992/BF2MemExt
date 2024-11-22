@@ -111,17 +111,15 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                   },
             },
 
-            /*patch_set{
+            patch_set{
                .name = "Sound Limit Extension",
                .patches =
                   {
-                     patch{0x271ef6 + 0x1, 0x1d53b10, ES_SOUND_START, true},         // Snd::Engine::Open
-                     patch{0x271d8b + 0x1, 0x2000000, 0x10000000},                   // malloc call 1 arg
-                     patch{0x271f0a + 0x6, 0x2000000, 0x10000000},                   // malloc call 2 arg
-                     patch{0x271f24 + 0x6, 0x8000, smSampleRAMBitmapNew_size, true}, 
-                     patch{0x271eff + 0x1, 0x2000, 0x2000 * 8},                      
+                     patch{0x332aa2 + 0x1, 0x9d1258, ES_SOUND_START, true},         // Snd::Engine::Open
+                     patch{0x332aac + 0x1, 0x2000000, 0x10000000},                   // malloc call 1 arg
+                     patch{0x3328e7 + 0x1, 0x2000000, 0x10000000},                   // malloc call 2 arg
                   },
-            },*/
+            },
          },
    },
 
