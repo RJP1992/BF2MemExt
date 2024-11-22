@@ -2,12 +2,16 @@
 
 const static uint32_t DLC_mission_size = 0x110;
 const static uint32_t DLC_mission_patch_limit = 0x1000;
+const static uint32_t smSampleRAMBitmapNew_size = 0x40000;
 
 enum es_layout : uint32_t {
    ES_DLC_START = 0,
    ES_DLC_END = ES_DLC_START + (DLC_mission_size * DLC_mission_patch_limit),
 
-   ES_END = ES_DLC_END
+   ES_SOUND_START = ES_DLC_END,
+   ES_SOUND_END = ES_SOUND_START + smSampleRAMBitmapNew_size,
+
+   ES_END = ES_SOUND_END
 };
 
 // Function names matched from BF1 Mac executable. Could be wrong in cases.
@@ -54,6 +58,16 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x4957d, 0xb08414, (0xb08414 - 0xb08308) + ES_DLC_START, true}, // AddDownloadableContent
                   },
             },
+
+            patch_set{
+               .name = "Sound Limit Extension",
+               .patches =
+                  {
+                     patch{0x486ae0 + 0x1, 0x2331f08, ES_SOUND_START, true}, // Snd::Engine::Open
+                     patch{0x486aea + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
+                     patch{0x486939 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
+                  },
+            },
          },
    },
    
@@ -96,6 +110,18 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x8dfce, 0x1e31f04, (0x1e31f04 - 0x1e31f00) + ES_DLC_START, true}, // IsMissionDownloaded
                   },
             },
+
+            /*patch_set{
+               .name = "Sound Limit Extension",
+               .patches =
+                  {
+                     patch{0x271ef6 + 0x1, 0x1d53b10, ES_SOUND_START, true},         // Snd::Engine::Open
+                     patch{0x271d8b + 0x1, 0x2000000, 0x10000000},                   // malloc call 1 arg
+                     patch{0x271f0a + 0x6, 0x2000000, 0x10000000},                   // malloc call 2 arg
+                     patch{0x271f24 + 0x6, 0x8000, smSampleRAMBitmapNew_size, true}, 
+                     patch{0x271eff + 0x1, 0x2000, 0x2000 * 8},                      
+                  },
+            },*/
          },
    },
 
@@ -136,6 +162,17 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x8df68, 0x1e30954, (0x1e30954 - 0x1e30950) + ES_DLC_START, true}, // SetCurrentMission
                      patch{0x8dfb4, 0x1e30958, (0x1e30958 - 0x1e30950) + ES_DLC_START, true}, // GetContentDirectory
                      patch{0x8dfce, 0x1e30954, (0x1e30954 - 0x1e30950) + ES_DLC_START, true}, // IsMissionDownloaded
+                  },
+            },
+
+            patch_set{
+               .name = "Sound Limit Extension",
+               .patches =
+                  {
+                     patch{0x3319b2 + 0x1, 0x9cfdb8, ES_SOUND_START, true}, // Snd::Engine::Open
+                     patch{0x3319bc + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
+                     patch{0x3317f7 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
+                     patch{0xdf1 + 0x6, 0x9d0038, ES_SOUND_START + 0x280, true},  // possibly unnecessary
                   },
             },
          },
