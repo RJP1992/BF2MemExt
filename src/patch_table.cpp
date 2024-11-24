@@ -3,6 +3,7 @@
 const static uint32_t DLC_mission_size = 0x110;
 const static uint32_t DLC_mission_patch_limit = 0x1000;
 const static uint32_t smSampleRAMBitmapNew_size = 0x40000;
+const static uint32_t matrixPool_size = 0x30D40; //provisional value
 
 enum es_layout : uint32_t {
    ES_DLC_START = 0,
@@ -11,7 +12,10 @@ enum es_layout : uint32_t {
    ES_SOUND_START = ES_DLC_END,
    ES_SOUND_END = ES_SOUND_START + smSampleRAMBitmapNew_size,
 
-   ES_END = ES_SOUND_END
+   ES_MATRIX_START = ES_SOUND_END,
+   ES_MATRIX_END = ES_MATRIX_START + matrixPool_size,
+
+   ES_END = ES_MATRIX_END
 };
 
 // Function names matched from BF1 Mac executable. Could be wrong in cases.
@@ -68,6 +72,41 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x486939 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
                   },
             },
+
+            patch_set{
+               .name = "High-res Animation Limit Extension",
+               .patches =
+                  {
+                     patch{0x1840c7 + 0x2, 0x32, 0x1f4},                    // 10x increase
+                     patch{0x1840cf + 0x1, 0x32, 0x1f4},                    // 10x increase
+                     patch{0x184136 + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
+                     patch{0x17e57e + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
+                     patch{0x1840b3 + 0x1, 0x64970, 0x1f4 * 0x2030 + 0x10}, // heap allocation = array size - 16
+                  },
+            },
+
+            patch_set{
+               .name = "Matrix/Item Pool Limit Extension",
+               .patches =
+                  {
+                     patch{0x405c0f + 0x2, 0xd64090, ES_MATRIX_START, true},
+                     patch{0x405c83 + 0x2, 0xd64090, ES_MATRIX_START, true},
+                     patch{0x410747 + 0x1, 0xd64090, ES_MATRIX_START, true},
+                     patch{0x405c15 + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x405c89 + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x61f8b0 + 0x1, 0x320, 0x40000}, //transparentItemsSize
+                     patch{0x61f8e0 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
+                     patch{0x61f880 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                  },
+            },
+
+            /*patch_set{
+               .name = "nearScene Extension",
+               .patches =
+                  {
+                     patch{0x2bf5c3 + 0x6, 0x0, 0x1},         excluded as it can be toggled via console!s
+                  },
+            },*/
          },
    },
    
@@ -120,6 +159,42 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x3328e7 + 0x1, 0x2000000, 0x10000000},                   // malloc call 2 arg
                   },
             },
+
+            patch_set{
+               .name = "High-res Animation Limit Extension",
+               .patches =
+                  {
+                     patch{0x247872 + 0x1, 0x32, 0x7f},                    // 1-byte signed int, needs relocating to increase it - 127 max
+                     patch{0x247877 + 0x2, 0x32, 0x7f},                    // 4-byte signed int, must match above
+                     patch{0x2478d9 + 0x2, 0x64640, 0x7f * 0x2020},        // array size
+                     patch{0x243d02 + 0x1, 0x64640, 0x7f * 0x2020},        // array size
+                     patch{0x247850 + 0x1, 0x64650, 0x7f * 0x2020 + 0x10}, // heap allocation = array size - 16
+                  },
+            },
+
+            patch_set{
+               .name = "Matrix/Item Pool Limit Extension",
+               .patches =
+                  {
+                     patch{0x2b0702 + 0x1, 0x8c03f0, ES_MATRIX_START, true},
+                     patch{0x2b8e37 + 0x2, 0x8c03f0, ES_MATRIX_START, true},
+                     patch{0x2b076f + 0x2, 0x8c03f0, ES_MATRIX_START, true},
+                     patch{0x2b070a + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2b0778 + 0x1, 0xbf6, matrixPool_size},
+                     patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
+                     patch{0x6b10 + 0x1, 0x320, 0x40000}, //transparentItemsSize
+                     patch{0x6a80 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
+                     patch{0x6ab0 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                  },
+            },
+
+            patch_set{
+               .name = "nearScene Extension",
+               .patches =
+                  {
+                     patch{0x2bf5c3 + 0x6, 0x0, 0x1},
+                  },
+            },
          },
    },
 
@@ -170,6 +245,42 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x3319b2 + 0x1, 0x9cfdb8, ES_SOUND_START, true}, // Snd::Engine::Open
                      patch{0x3319bc + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
                      patch{0x3317f7 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
+                  },
+            },
+
+            patch_set{
+               .name = "High-res Animation Limit Extension",
+               .patches =
+                  {
+                     patch{0x2467d2 + 0x1, 0x32, 0x7f},                    // 1-byte signed int, needs relocating to increase it - 127 max
+                     patch{0x2467d7 + 0x2, 0x32, 0x7f},                    // 4-byte signed int, must match above
+                     patch{0x246839 + 0x2, 0x64640, 0x7f * 0x2020},        // array size
+                     patch{0x242c62 + 0x1, 0x64640, 0x7f * 0x2020},        // array size
+                     patch{0x2467b0 + 0x1, 0x64650, 0x7f * 0x2020 + 0x10}, // heap allocation = array size + 16
+                  },
+            },
+
+            patch_set{
+               .name = "Matrix/Item Pool Limit Extension",
+               .patches =
+                  {
+                     patch{0x2af682 + 0x1, 0x8bef50, ES_MATRIX_START, true},
+                     patch{0x2af6ef + 0x2, 0x8bef50, ES_MATRIX_START, true},
+                     patch{0x2b7da7 + 0x2, 0x8bef50, ES_MATRIX_START, true},
+                     patch{0x2af68a + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2af6f8 + 0x1, 0xbf6, matrixPool_size},
+                     patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
+                     patch{0x6b10 + 0x1, 0x320, 0x40000}, //transparentItemsSize
+                     patch{0x6a80 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
+                     patch{0x6ab0 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                  },
+            },
+
+            patch_set{
+               .name = "nearScene Extension",
+               .patches =
+                  {
+                     patch{0x2be533 + 0x6, 0x0, 0x1},
                   },
             },
          },

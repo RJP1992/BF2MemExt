@@ -4,7 +4,7 @@
 
 #include "slim_vector.hpp"
 
-#define PATCH_COUNT 4
+#define PATCH_COUNT 7
 #define EXE_COUNT 3
 
 struct patch {
