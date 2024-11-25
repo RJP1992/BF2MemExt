@@ -77,7 +77,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "High-res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x1840c7 + 0x2, 0x32, 0x1f4},                    // 10x increase
+                     patch{0x1840c7 + 0x2, 0x32, 0x1f4, false, true},                    // 10x increase
                      patch{0x1840cf + 0x1, 0x32, 0x1f4},                    // 10x increase
                      patch{0x184136 + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
                      patch{0x17e57e + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
@@ -94,19 +94,19 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x410747 + 0x1, 0xd64090, ES_MATRIX_START, true},
                      patch{0x405c15 + 0x2, 0xbf6, matrixPool_size},
                      patch{0x405c89 + 0x2, 0xbf6, matrixPool_size},
-                     patch{0x61f8b0 + 0x1, 0x320, 0x40000}, //transparentItemsSize
-                     patch{0x61f8e0 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
-                     patch{0x61f880 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                     patch{0x61f8b0 + 0x1, 0x320, 0x40000},          // transparentItemsSize
+                     patch{0x61f8e0 + 0x1, 0x200, 0x25600},          // postTransparentItemSize
+                     patch{0x61f880 + 0x1, 0x64, 0x7f, false, true}, // preShadowTransparentItemSize 8-bit signed int, needs relocating to increase it
                   },
             },
 
-            /*patch_set{
-               .name = "nearScene Extension",
-               .patches =
-                  {
-                     patch{0x2bf5c3 + 0x6, 0x0, 0x1},         excluded as it can be toggled via console!s
-                  },
-            },*/
+            //patch_set{
+            //   .name = "nearScene Extension",
+            //   .patches =
+            //      {
+            //         patch{0x2bf5c3 + 0x6, 0x0, 0x1},         excluded as it can be toggled via console!
+            //      },
+            //},
          },
    },
    
@@ -154,9 +154,9 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "Sound Limit Extension",
                .patches =
                   {
-                     patch{0x332aa2 + 0x1, 0x9d1258, ES_SOUND_START, true},         // Snd::Engine::Open
-                     patch{0x332aac + 0x1, 0x2000000, 0x10000000},                   // malloc call 1 arg
-                     patch{0x3328e7 + 0x1, 0x2000000, 0x10000000},                   // malloc call 2 arg
+                     patch{0x332aa2 + 0x1, 0x9d1258, ES_SOUND_START, true}, // Snd::Engine::Open
+                     patch{0x332aac + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
+                     patch{0x3328e7 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
                   },
             },
 
@@ -164,11 +164,11 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "High-res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x247872 + 0x1, 0x32, 0x7f},                    // 1-byte signed int, needs relocating to increase it - 127 max
-                     patch{0x247877 + 0x2, 0x32, 0x7f},                    // 4-byte signed int, must match above
-                     patch{0x2478d9 + 0x2, 0x64640, 0x7f * 0x2020},        // array size
-                     patch{0x243d02 + 0x1, 0x64640, 0x7f * 0x2020},        // array size
-                     patch{0x247850 + 0x1, 0x64650, 0x7f * 0x2020 + 0x10}, // heap allocation = array size - 16
+                     patch{0x247872 + 0x1, 0x32, 0x7f, false, true},       // 1-byte signed int, needs relocating to increase it - 127 max
+                     patch{0x247877 + 0x2, 0x32, 0x7f},       // 4-byte signed int, must match above
+                     patch{0x2478d9 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0x243d02 + 0x1, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0x247850 + 0x1, 0x64650, 0xfeff0}, // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
                   },
             },
 
@@ -182,9 +182,9 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2b070a + 0x2, 0xbf6, matrixPool_size},
                      patch{0x2b0778 + 0x1, 0xbf6, matrixPool_size},
                      patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
-                     patch{0x6b10 + 0x1, 0x320, 0x40000}, //transparentItemsSize
-                     patch{0x6a80 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
-                     patch{0x6ab0 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                     patch{0x6b10 + 0x1, 0x320, 0x40000},          // transparentItemsSize
+                     patch{0x6a80 + 0x1, 0x200, 0x25600},          // postTransparentItemSize
+                     patch{0x6ab0 + 0x1, 0x64, 0x7f, false, true}, // preShadowTransparentItemSize 8-bit signed int, needs relocating to increase it
                   },
             },
 
@@ -192,7 +192,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "nearScene Extension",
                .patches =
                   {
-                     patch{0x2bf5c3 + 0x6, 0x0, 0x1},
+                     patch{0x2bf5c3 + 0x6, 0x0, 0x1, false, true},
                   },
             },
          },
@@ -212,7 +212,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2165c7, 0x4000000, 0x10000000}, // malloc'd block end pointer
                   },
             },
-
+            
             patch_set{
                .name = "SoundParameterized Layer Limit Extension",
                .patches =
@@ -249,14 +249,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
             },
 
             patch_set{
-               .name = "High-res Animation Limit Extension",
+               .name = "High-Res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x2467d2 + 0x1, 0x32, 0x7f},                    // 1-byte signed int, needs relocating to increase it - 127 max
-                     patch{0x2467d7 + 0x2, 0x32, 0x7f},                    // 4-byte signed int, must match above
-                     patch{0x246839 + 0x2, 0x64640, 0x7f * 0x2020},        // array size
-                     patch{0x242c62 + 0x1, 0x64640, 0x7f * 0x2020},        // array size
-                     patch{0x2467b0 + 0x1, 0x64650, 0x7f * 0x2020 + 0x10}, // heap allocation = array size + 16
+                     patch{0x2467d2 + 0x1, 0x32, 0x7f, false, true},       // 8-bit signed int, needs relocating to increase it - 127 max
+                     patch{0x2467d7 + 0x2, 0x32, 0x7f},       // 32-bit signed int, must match above
+                     patch{0x246839 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0x242c62 + 0x1, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0x2467b0 + 0x1, 0x64650, 0xfeff0}, // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
                   },
             },
 
@@ -270,9 +270,9 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2af68a + 0x2, 0xbf6, matrixPool_size},
                      patch{0x2af6f8 + 0x1, 0xbf6, matrixPool_size},
                      patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
-                     patch{0x6b10 + 0x1, 0x320, 0x40000}, //transparentItemsSize
-                     patch{0x6a80 + 0x1, 0x200, 0x25600}, //postTransparentItemSize
-                     patch{0x6ab0 + 0x1, 0x64, 0x7f}, // //preShadowTransparentItemSize signed int, needs relocating to increase it
+                     patch{0x6b10 + 0x1, 0x320, 0x40000},          // transparentItemsSize
+                     patch{0x6a80 + 0x1, 0x200, 0x25600},          // postTransparentItemSize
+                     patch{0x6ab0 + 0x1, 0x64, 0x7f, false, true}, // preShadowTransparentItemSize 8-bit signed int, needs relocating to increase it
                   },
             },
 
@@ -280,7 +280,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "nearScene Extension",
                .patches =
                   {
-                     patch{0x2be533 + 0x6, 0x0, 0x1},
+                     patch{0x2be533 + 0x6, 0x0, 0x1, false, true},
                   },
             },
          },

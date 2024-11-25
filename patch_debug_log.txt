@@ -1,0 +1,2 @@
+Patch failed at 25-11-2024 01:07:12
+Failed to patch file: C:\Program Files (x86)\Steam\steamapps\common\Star Wars Battlefront II Classic\GameData\BattlefrontII.exe

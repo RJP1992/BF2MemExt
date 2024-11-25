@@ -12,6 +12,7 @@ struct patch {
    uint32_t expected_value = 0;
    uint32_t replacement_value = 0;
    bool value_is_ext_section_relative_address = false;
+   bool is_8bit = false;
 };
 
 struct patch_set {

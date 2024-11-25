@@ -207,29 +207,68 @@ bool exe_patcher::prepare(uint32_t ext_section_size)
 
 bool exe_patcher::apply(const patch& patch)
 {
-   if (not _data) return false;
+    if (not _data) return false;
 
-   const uint32_t offset = patch.address;
+    const uint32_t offset = patch.address;
 
-   if (not check_range(offset, sizeof(uint32_t))) return false;
+    // Determine whether to use 8-bit or 32-bit patch based on the 'is_8bit' flag
+    const size_t patch_size = patch.is_8bit ? sizeof(uint8_t) : sizeof(uint32_t);
 
-   uint32_t replacement_value = patch.replacement_value;
+    // Handle expected value and replacement value based on patch size
+    if (patch.is_8bit) {
+        uint8_t replacement_value = static_cast<uint8_t>(patch.replacement_value);  // Treat replacement as 8-bit
+        uint8_t expected_value = static_cast<uint8_t>(patch.expected_value);  // Treat expected as 8-bit
 
-   if (patch.value_is_ext_section_relative_address) replacement_value += _ext_section_va;
+        if (patch.value_is_ext_section_relative_address) {
+            replacement_value += _ext_section_va;
+        }
 
-   const bool already_patched =
-      memeq(&_data[offset], sizeof(uint32_t), &replacement_value, sizeof(replacement_value));
+        const bool already_patched = memeq(&_data[offset], sizeof(uint8_t), &replacement_value, sizeof(replacement_value));
 
-   if (already_patched) return true;
+        if (already_patched) {
+            printf("Log: Address %08X already patched with 8-bit value %02X, skipping.\r\n", offset, replacement_value);
+            return true;
+        }
 
-   const bool expected_value =
-      memeq(&_data[offset], sizeof(uint32_t), &patch.expected_value, sizeof(patch.expected_value));
+        const bool expected_value_check = memeq(&_data[offset], sizeof(uint8_t), &expected_value, sizeof(expected_value));
 
-   if (not expected_value) return false;
+        if (not expected_value_check) {
+            printf("Error: Mismatch at address %08X. Expected 8-bit value: %02X, but found: %02X.\r\n",
+                offset, expected_value, _data[offset]);
+            return false;
+        }
 
-   memcpy(&_data[offset], &replacement_value, sizeof(replacement_value));
+        memcpy(&_data[offset], &replacement_value, sizeof(replacement_value));
+        printf("Log: Successfully patched address %08X with 8-bit value %02X.\r\n", offset, replacement_value);
+        return true;
+    }
+    else {
+        uint32_t replacement_value = patch.replacement_value;
+        uint32_t expected_value = patch.expected_value;
 
-   return true;
+        if (patch.value_is_ext_section_relative_address) {
+            replacement_value += _ext_section_va;
+        }
+
+        const bool already_patched = memeq(&_data[offset], sizeof(uint32_t), &replacement_value, sizeof(replacement_value));
+
+        if (already_patched) {
+            printf("Log: Address %08X already patched with 32-bit value %08X, skipping.\r\n", offset, replacement_value);
+            return true;
+        }
+
+        const bool expected_value_check = memeq(&_data[offset], sizeof(uint32_t), &expected_value, sizeof(expected_value));
+
+        if (not expected_value_check) {
+            printf("Error: Mismatch at address %08X. Expected 32-bit value: %08X, but found: %08X.\r\n",
+                offset, expected_value, _data[offset]);
+            return false;
+        }
+
+        memcpy(&_data[offset], &replacement_value, sizeof(replacement_value));
+        printf("Log: Successfully patched address %08X with 32-bit value %08X.\r\n", offset, replacement_value);
+        return true;
+    }
 }
 
 bool exe_patcher::check_range(size_t offset, size_t size) const noexcept
