@@ -3,7 +3,7 @@
 const static uint32_t DLC_mission_size = 0x110;
 const static uint32_t DLC_mission_patch_limit = 0x1000;
 const static uint32_t smSampleRAMBitmapNew_size = 0x40000;
-const static uint32_t matrixPool_size = 0x30D40; //provisional value
+const static uint32_t matrixPool_size = 0x30D400; //provisional value
 
 enum es_layout : uint32_t {
    ES_DLC_START = 0,
@@ -68,16 +68,16 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x486ae0 + 0x1, 0x2331f08, ES_SOUND_START, true}, // Snd::Engine::Open
-                     patch{0x486aea + 0x1, 0x2000000, 0x10000000},          // malloc call 1 arg
-                     patch{0x486939 + 0x1, 0x2000000, 0x10000000},          // malloc call 2 arg
+                     patch{0x486aea + 0x1, 0x2000000, 0x10000000},           // malloc call 1 arg
+                     patch{0x486939 + 0x1, 0x2000000, 0x10000000},           // malloc call 2 arg
                   },
             },
 
             patch_set{
-               .name = "High-res Animation Limit Extension",
+               .name = "High-Res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x1840c7 + 0x2, 0x32, 0x1f4, false, true},                    // 10x increase
+                     patch{0x1840c7 + 0x2, 0x32, 0x1f4, false, true},       // 10x increase
                      patch{0x1840cf + 0x1, 0x32, 0x1f4},                    // 10x increase
                      patch{0x184136 + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
                      patch{0x17e57e + 0x2, 0x64960, 0x1f4 * 0x2030},        // array size
@@ -107,6 +107,31 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
             //         patch{0x2bf5c3 + 0x6, 0x0, 0x1},         excluded as it can be toggled via console!
             //      },
             //},
+             
+            patch_set{
+               .name = "LOD Limit Extension",
+               .patches =
+                  {
+                     patch{0x41d455 + 0x1, 0xc8, 0xc8 * 0xa},       // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x41d450 + 0x1, 0xc350, 0xc350 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x41d441 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+
+                     patch{0x41d3c0 + 0x1, 0x258, 0x258 * 0xa},     // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x41d3bb + 0x1, 0x186a0, 0x186a0 * 0xa}, // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x41d3ac + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+
+                     patch{0x41d38c + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
+                     patch{0x41d387 + 0x1, 0x4650, 0x4650 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x41d37a + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+
+                     patch{0x41d410 + 0x1, 0x5dc, 0x5dc * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x41d40b + 0x1, 0x2710, 0x2710 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+
+                     patch{0x41d426 + 0x1, 0x12c, 0x12c * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x41d421 + 0x1, 0x3e8, 0x3e8 * 0xa},     // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x41d3fa + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
+                  },
+            },
          },
    },
    
@@ -164,11 +189,11 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "High-res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x247872 + 0x1, 0x32, 0x7f, false, true},       // 1-byte signed int, needs relocating to increase it - 127 max
-                     patch{0x247877 + 0x2, 0x32, 0x7f},       // 4-byte signed int, must match above
-                     patch{0x2478d9 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
-                     patch{0x243d02 + 0x1, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
-                     patch{0x247850 + 0x1, 0x64650, 0xfeff0}, // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
+                     patch{0x247872 + 0x1, 0x32, 0x7f, false, true}, // 1-byte signed int, needs relocating to increase it - 127 max
+                     patch{0x247877 + 0x2, 0x32, 0x7f},              // 4-byte signed int, must match above
+                     patch{0x2478d9 + 0x2, 0x64640, 0xfefe0},        // array size 0x7f * 0x2020
+                     patch{0x243d02 + 0x1, 0x64640, 0xfefe0},        // array size 0x7f * 0x2020
+                     patch{0x247850 + 0x1, 0x64650, 0xfeff0},        // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
                   },
             },
 
@@ -193,6 +218,31 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x2bf5c3 + 0x6, 0x0, 0x1, false, true},
+                  },
+            },
+
+            patch_set{
+               .name = "LOD Limit Extension",
+               .patches =
+                  {
+                     patch{0x2bcd59 + 0x1, 0xc8, 0xc8 * 0xa},        // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x2bcd54 + 0x1, 0xc350, 0xc350 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x2bcd45 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+
+                     patch{0x2bccc1 + 0x1, 0x258, 0x258 * 0xa},      // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x2bccbc + 0x1, 0x186a0, 0x186a0 * 0xa},  // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x2bccad + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+
+                     patch{0x2bcc86 + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
+                     patch{0x2bcc81 + 0x1, 0x4650, 0x4650 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x2bcc75 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+
+                     patch{0x2bcd11 + 0x1, 0x5dc, 0x5dc * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x2bcd0c + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+
+                     patch{0x2bcd27 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x2bcd22 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x2bccfb + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
          },
@@ -252,11 +302,11 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "High-Res Animation Limit Extension",
                .patches =
                   {
-                     patch{0x2467d2 + 0x1, 0x32, 0x7f, false, true},       // 8-bit signed int, needs relocating to increase it - 127 max
-                     patch{0x2467d7 + 0x2, 0x32, 0x7f},       // 32-bit signed int, must match above
-                     patch{0x246839 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
-                     patch{0x242c62 + 0x1, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
-                     patch{0x2467b0 + 0x1, 0x64650, 0xfeff0}, // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
+                     patch{0x2467d2 + 0x1, 0x32, 0x7f, false, true}, // 8-bit signed int, needs relocating to increase it - 127 max
+                     patch{0x2467d7 + 0x2, 0x32, 0x7f},              // 32-bit signed int, must match above
+                     patch{0x246839 + 0x2, 0x64640, 0xfefe0},        // array size 0x7f * 0x2020
+                     patch{0x242c62 + 0x1, 0x64640, 0xfefe0},        // array size 0x7f * 0x2020
+                     patch{0x2467b0 + 0x1, 0x64650, 0xfeff0},        // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
                   },
             },
 
@@ -281,6 +331,31 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x2be533 + 0x6, 0x0, 0x1, false, true},
+                  },
+            },
+
+            patch_set{
+               .name = "LOD Limit Extension",
+               .patches =
+                  {
+                     patch{0x2bbcc9 + 0x1, 0xc8, 0xc8 * 0xa},       // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x2bbcc4 + 0x1, 0xc350, 0xc350 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x2bbcb5 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+
+                     patch{0x2bbc31 + 0x1, 0x258, 0x258 * 0xa},     // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x2bbc2c + 0x1, 0x186a0, 0x186a0 * 0xa}, // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x2bbc1d + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+
+                     patch{0x2bbbf6 + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
+                     patch{0x2bbbf1 + 0x1, 0x4650, 0x4650 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x2bbbe5 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+
+                     patch{0x2bbc81 + 0x1, 0x5dc, 0x5dc * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x2bbc7c + 0x1, 0x2710, 0x2710 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+
+                     patch{0x2bbc97 + 0x1, 0x12c, 0x12c * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x2bbc92 + 0x1, 0x3e8, 0x3e8 * 0xa},     // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x2bbc6b + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
          },
