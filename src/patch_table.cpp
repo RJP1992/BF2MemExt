@@ -132,6 +132,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x41d3fa + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
+
+            patch_set{
+               .name = "Default Explosion VisibleRadius Increase",
+               .patches =
+                  {
+                     patch{0x203637 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
+                  },
+            },
          },
    },
    
@@ -245,6 +253,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2bccfb + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
+
+            patch_set{
+               .name = "Default Explosion VisibleRadius Increase",
+               .patches =
+                  {
+                     patch{0x11bf59 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
+                  },
+            },
          },
    },
 
@@ -356,6 +372,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2bbc97 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
                      patch{0x2bbc92 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
                      patch{0x2bbc6b + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
+                  },
+            },
+
+            patch_set{
+               .name = "Default Explosion VisibleRadius Increase",
+               .patches =
+                  {
+                     patch{0x11bf59 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
                   },
             },
          },
