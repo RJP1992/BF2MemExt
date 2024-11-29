@@ -112,24 +112,24 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "LOD Limit Extension",
                .patches =
                   {
-                     patch{0x41d455 + 0x1, 0xc8, 0xc8 * 0xa},       // SetClassMaxCost::MaxCount    - modelClass (0)
-                     patch{0x41d450 + 0x1, 0xc350, 0xc350 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
-                     patch{0x41d441 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+                     patch{0x41d455 + 0x1, 0xc8, 0xc8 * 0xa},        // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x41d450 + 0x1, 0xc350, 0xc350 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x41d441 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
 
-                     patch{0x41d3c0 + 0x1, 0x258, 0x258 * 0xa},     // SetClassMaxCost::MaxCount    - bigModelClass (1)
-                     patch{0x41d3bb + 0x1, 0x186a0, 0x186a0 * 0xa}, // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
-                     patch{0x41d3ac + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+                     patch{0x41d3c0 + 0x1, 0x258, 0x258 * 0xa},      // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x41d3bb + 0x1, 0x186a0, 0x186a0 * 0xa},  // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x41d3ac + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
 
                      patch{0x41d38c + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
-                     patch{0x41d387 + 0x1, 0x4650, 0x4650 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
-                     patch{0x41d37a + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+                     patch{0x41d387 + 0x1, 0x4650, 0x4650 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x41d37a + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
 
-                     patch{0x41d410 + 0x1, 0x5dc, 0x5dc * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
-                     patch{0x41d40b + 0x1, 0x2710, 0x2710 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+                     patch{0x41d410 + 0x1, 0x5dc, 0x5dc * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x41d40b + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
 
-                     patch{0x41d426 + 0x1, 0x12c, 0x12c * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3)
-                     patch{0x41d421 + 0x1, 0x3e8, 0x3e8 * 0xa},     // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
-                     patch{0x41d3fa + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
+                     patch{0x41d426 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x41d421 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x41d3fa + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
          },
@@ -228,18 +228,18 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2bcd59 + 0x1, 0xc8, 0xc8 * 0xa},        // SetClassMaxCost::MaxCount    - modelClass (0)
                      patch{0x2bcd54 + 0x1, 0xc350, 0xc350 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
                      patch{0x2bcd45 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
-
+            
                      patch{0x2bccc1 + 0x1, 0x258, 0x258 * 0xa},      // SetClassMaxCost::MaxCount    - bigModelClass (1)
                      patch{0x2bccbc + 0x1, 0x186a0, 0x186a0 * 0xa},  // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
                      patch{0x2bccad + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
-
+            
                      patch{0x2bcc86 + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
                      patch{0x2bcc81 + 0x1, 0x4650, 0x4650 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
                      patch{0x2bcc75 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
-
+            
                      patch{0x2bcd11 + 0x1, 0x5dc, 0x5dc * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
                      patch{0x2bcd0c + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
-
+            
                      patch{0x2bcd27 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
                      patch{0x2bcd22 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
                      patch{0x2bccfb + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
@@ -338,24 +338,24 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "LOD Limit Extension",
                .patches =
                   {
-                     patch{0x2bbcc9 + 0x1, 0xc8, 0xc8 * 0xa},       // SetClassMaxCost::MaxCount    - modelClass (0)
-                     patch{0x2bbcc4 + 0x1, 0xc350, 0xc350 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
-                     patch{0x2bbcb5 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+                     patch{0x2bbcc9 + 0x1, 0xc8, 0xc8 * 0xa},        // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x2bbcc4 + 0x1, 0xc350, 0xc350 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x2bbcb5 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
 
-                     patch{0x2bbc31 + 0x1, 0x258, 0x258 * 0xa},     // SetClassMaxCost::MaxCount    - bigModelClass (1)
-                     patch{0x2bbc2c + 0x1, 0x186a0, 0x186a0 * 0xa}, // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
-                     patch{0x2bbc1d + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+                     patch{0x2bbc31 + 0x1, 0x258, 0x258 * 0xa},      // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x2bbc2c + 0x1, 0x186a0, 0x186a0 * 0xa},  // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x2bbc1d + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
 
                      patch{0x2bbbf6 + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
-                     patch{0x2bbbf1 + 0x1, 0x4650, 0x4650 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
-                     patch{0x2bbbe5 + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+                     patch{0x2bbbf1 + 0x1, 0x4650, 0x4650 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x2bbbe5 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
 
-                     patch{0x2bbc81 + 0x1, 0x5dc, 0x5dc * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
-                     patch{0x2bbc7c + 0x1, 0x2710, 0x2710 * 0xa},   // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+                     patch{0x2bbc81 + 0x1, 0x5dc, 0x5dc * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x2bbc7c + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
 
-                     patch{0x2bbc97 + 0x1, 0x12c, 0x12c * 0xa},     // SetClassMaxCost::MaxCount    - hugeModelClass (3)
-                     patch{0x2bbc92 + 0x1, 0x3e8, 0x3e8 * 0xa},     // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
-                     patch{0x2bbc6b + 0x1, 0x9c40, 0x9c40 * 0xa},   // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
+                     patch{0x2bbc97 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x2bbc92 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x2bbc6b + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
                   },
             },
          },
