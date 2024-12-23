@@ -152,6 +152,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x203637 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
                   },
             },
+
+            patch_set{
+               .name = "String Pool Increase",
+               .patches =
+                  {
+                     patch{0x4ef77 + 0x1, 0x8000, 0x20000},
+                  },
+            },
          },
    },
    
@@ -246,7 +254,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "renderRadius Limit Extension",
                .patches =
                   {
-                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float - not required for main exe
                      //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
                      //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
                      patch{0x3b1f94, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
@@ -284,6 +292,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x11bf59 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
+                  },
+            },
+
+            patch_set{
+               .name = "String Pool Increase",
+               .patches =
+                  {
+                     patch{0x13b293 + 0x1, 0x1770, 0x20000},
                   },
             },
          },
@@ -380,7 +396,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "renderRadius Limit Extension",
                .patches =
                   {
-                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float - not required for main exe
                      //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
                      //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
                      patch{0x3b0e1c, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
@@ -417,6 +433,14 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x11bf59 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
+                  },
+            },
+
+            patch_set{
+               .name = "String Pool Increase",
+               .patches =
+                  {
+                     patch{0x13a543 + 0x1, 0x1770, 0x20000},
                   },
             },
          },
