@@ -100,13 +100,25 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                   },
             },
 
-            //patch_set{
-            //   .name = "nearScene Extension",
-            //   .patches =
-            //      {
-            //         patch{0x2bf5c3 + 0x6, 0x0, 0x1},         excluded as it can be toggled via console!
-            //      },
-            //},
+            patch_set{
+               .name = "nearScene Extension",
+               .patches =
+                  {
+                     //patch{0x398b75, 0x0, 0x1},
+                  },
+            },
+             
+            patch_set{
+               .name = "renderRadius Limit Extension",
+               .patches =
+                  {
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},         //RenderRadius float
+                     //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
+                     //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
+                     patch{0x674cb0, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
+                     patch{0x674794, 0xc61c4000, 0xc7c35000},         //ProjectionVectorZNeg float
+                  },
+            },
              
             patch_set{
                .name = "LOD Limit Extension",
@@ -212,6 +224,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2b0702 + 0x1, 0x8c03f0, ES_MATRIX_START, true},
                      patch{0x2b8e37 + 0x2, 0x8c03f0, ES_MATRIX_START, true},
                      patch{0x2b076f + 0x2, 0x8c03f0, ES_MATRIX_START, true},
+                     patch{0x6992 + 0x1, 0x8c03f0, ES_MATRIX_START, true},
                      patch{0x2b070a + 0x2, 0xbf6, matrixPool_size},
                      patch{0x2b0778 + 0x1, 0xbf6, matrixPool_size},
                      patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
@@ -226,6 +239,18 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x2bf5c3 + 0x6, 0x0, 0x1, false, true},
+                  },
+            },
+
+            patch_set{
+               .name = "renderRadius Limit Extension",
+               .patches =
+                  {
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},         //RenderRadius float
+                     //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
+                     //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
+                     patch{0x3b1f94, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
+                     patch{0x3722fc, 0xc61c4000, 0xc7c35000},         //ProjectionVectorZNeg float
                   },
             },
 
@@ -333,6 +358,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                      patch{0x2af682 + 0x1, 0x8bef50, ES_MATRIX_START, true},
                      patch{0x2af6ef + 0x2, 0x8bef50, ES_MATRIX_START, true},
                      patch{0x2b7da7 + 0x2, 0x8bef50, ES_MATRIX_START, true},
+                     patch{0x6992 + 0x1, 0x8bef50, ES_MATRIX_START, true},
                      patch{0x2af68a + 0x2, 0xbf6, matrixPool_size},
                      patch{0x2af6f8 + 0x1, 0xbf6, matrixPool_size},
                      patch{0x6997 + 0x1, 0xbf5, matrixPool_size - 1},
@@ -350,6 +376,17 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                   },
             },
 
+            patch_set{
+               .name = "renderRadius Limit Extension",
+               .patches =
+                  {
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float
+                     //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
+                     //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
+                     patch{0x3b0e1c, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
+                     patch{0x37114c, 0xc61c4000, 0xc7c35000},         //ProjectionVectorZNeg float
+                  },
+            },
             patch_set{
                .name = "LOD Limit Extension",
                .patches =
@@ -380,6 +417,168 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .patches =
                   {
                      patch{0x11bf59 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
+                  },
+            },
+         },
+   },
+
+   exe_patch_list{
+      .name = "BattlefrontII.exe DVD",
+      .id_address = 0x3bf12c,
+      .expected_id = 0x746163696c707041,
+      .patches =
+         {
+            patch_set{
+               .name = "RedMemory Heap Extensions",
+               .patches =
+                  {
+                     patch{0x221a60 + 0x1, 0x4000000, 0x10000000}, // malloc call arg
+                     patch{0x221a6c + 0x2, 0x4000000, 0x10000000}, // malloc'd block end pointer
+                  },
+            },
+            
+            patch_set{
+               .name = "SoundParameterized Layer Limit Extension",
+               .patches =
+                  {
+                     patch{0x45b148, 0xa0, 0x2000},
+                  },
+            },
+
+            //patch_set{
+            //   .name = "DLC Mission Limit Extension",
+            //   .patches =
+            //      {
+            //         patch{0x8de7d, 0x1f4, DLC_mission_patch_limit, true},                    // AddDownloadableContent
+            //         patch{0x8de9f, 0x1e30950, ES_DLC_START, true},                           // AddDownloadableContent
+            //         patch{0x8dec3, 0x1e30954, (0x1e30954 - 0x1e30950) + ES_DLC_START, true}, // AddDownloadableContent
+            //         patch{0x8dec9, 0x1e30958, (0x1e30958 - 0x1e30950) + ES_DLC_START, true}, // AddDownloadableContent
+            //         patch{0x8def0, 0x1e30a5b, (0x1e30a5b - 0x1e30950) + ES_DLC_START, true}, // AddDownloadableContent
+            //         patch{0x8def7, 0x1e30a5c, (0x1e30a5c - 0x1e30950) + ES_DLC_START, true}, // AddDownloadableContent
+            //         patch{0x8df28, 0x1e30950, ES_DLC_START, true},                           // SetCurrentMap
+            //         patch{0x8df68, 0x1e30954, (0x1e30954 - 0x1e30950) + ES_DLC_START, true}, // SetCurrentMission
+            //         patch{0x8dfb4, 0x1e30958, (0x1e30958 - 0x1e30950) + ES_DLC_START, true}, // GetContentDirectory
+            //         patch{0x8dfce, 0x1e30954, (0x1e30954 - 0x1e30950) + ES_DLC_START, true}, // IsMissionDownloaded
+            //      },
+            //},
+
+            patch_set{
+               .name = "Sound Limit Extension",
+               .patches =
+                  {
+                     patch{0x271f24 + 0x6, 0x8000, 0x40000},       // Snd::Engine::Open
+                     patch{0x271eff + 0x1, 0x2000, 0x10000},       // Snd::Engine::Open - possibly unnecessary
+                     patch{0x271d8b + 0x1, 0x2000000, 0x10000000}, // malloc call 1 arg
+                     patch{0x271f0a + 0x6, 0x2000000, 0x10000000}, // malloc call 2 arg
+                  },
+            },
+
+            patch_set{
+               .name = "High-Res Animation Limit Extension",
+               .patches =
+                  {
+                     patch{0xf3ca9 + 0x1, 0x32, 0x7f},       // 32-bit signed int
+                     patch{0xf3ca1 + 0x2, 0x32, 0x7f},       // 32-bit signed int
+                     patch{0xf0186 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0xf3b24 + 0x2, 0x64640, 0xfefe0}, // array size 0x7f * 0x2020
+                     patch{0xf3ab6 + 0x1, 0x64650, 0xfeff0}, // heap allocation = array size + 16 0x7f * 0x2020 + 0x10
+                  },
+            },
+
+            patch_set{
+               .name = "Matrix/Item Pool Limit Extension",
+               .patches =
+                  {
+                     patch{0x1d1999 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29bd1c + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29d350 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29d37e + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29dd31 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29dde0 + 0x1, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29df9b + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x29e265 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2a5380 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2a9341 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2a979d + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2a9876 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2aa473 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2ab279 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2abf62 + 0x1, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8b89 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8ba2 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8bbb + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8bc5 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8cd4 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8cee + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8cf8 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8d04 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8d70 + 0x1, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8d89 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8d93 + 0x1, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8d9e + 0x1, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8e55 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2b8e81 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2cd752 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2cd772 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2cd879 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+                     patch{0x2cd8a2 + 0x2, 0x1d71984, ES_MATRIX_START, true},
+
+                     patch{0x2b8d82 + 0x1, 0xbf6, matrixPool_size},
+                     patch{0x29d363 + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2b8b9a + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2b8e68 + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2cd88c + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2cd766 + 0x2, 0xbf6, matrixPool_size},
+                     patch{0x2b8ce6 + 0x2, 0xbf6, matrixPool_size},
+                     //patch{0x3834b1 + 0x1, 0x320, 0x40000},          // transparentItemsSize
+                     //patch{0x384ce0 + 0x1, 0x200, 0x25600},          // postTransparentItemSize
+                     //patch{0x6ab0 + 0x1, 0x64, 0x7f, false, true},   // preShadowTransparentItemSize 8-bit signed int, needs relocating to increase it
+                  },
+            },
+
+            patch_set{
+               .name = "nearScene Extension",
+               .patches =
+                  {
+                     patch{0x2a9d30 + 0x1, 0x51, 0x1, false, true}, // patch instruction to move 0x1 into AL vs nearScene pointer
+                     patch{0x2a9d30 + 0x2, 0x92, 0x0, false, true},
+                     patch{0x2a9d30 + 0x3, 0xd7, 0x0, false, true},
+                     patch{0x2a9d30 + 0x4, 0x01, 0x0, false, true},
+                  },
+            },
+
+            patch_set{
+               .name = "LOD Limit Extension",
+               .patches =
+                  {
+                     patch{0x2a8881 + 0x1, 0xc8, 0xc8 * 0xa},        // SetClassMaxCost::MaxCount    - modelClass (0)
+                     patch{0x2a888b + 0x1, 0xc350, 0xc350 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - modelClass (0)
+                     patch{0x2a8874 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - modelClass (0)
+
+                     patch{0x2a87f4 + 0x1, 0x258, 0x258 * 0xa},      // SetClassMaxCost::MaxCount    - bigModelClass (1)
+                     patch{0x2a87fe + 0x1, 0x186a0, 0x186a0 * 0xa},  // SetClassMaxCost::MaxCostLOD0 - bigModelClass (1)
+                     patch{0x2a87d3 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - bigModelClass (1)
+
+                     patch{0x2a87bb + 0x1, 0x64, 0x7f, false, true}, // SetClassMaxCost::MaxCount    - soldierClass (2) 8-bit signed int, needs relocating to increase it
+                     patch{0x2a87bf + 0x1, 0x4650, 0x4650 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - soldierClass (2)
+                     patch{0x2a87b1 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - soldierClass (2)
+
+                     patch{0x2a884d + 0x1, 0x5dc, 0x5dc * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3) - UBER
+                     patch{0x2a8843 + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+                     patch{0x2a8848 + 0x1, 0x2710, 0x2710 * 0xa},    // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3) - UBER
+
+                     patch{0x2a8860 + 0x1, 0x12c, 0x12c * 0xa},      // SetClassMaxCost::MaxCount    - hugeModelClass (3)
+                     patch{0x2a8856 + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x2a885b + 0x1, 0x3e8, 0x3e8 * 0xa},      // SetClassMaxCost::MaxCostLOD0 - hugeModelClass (3)
+                     patch{0x2a8837 + 0x1, 0x9c40, 0x9c40 * 0xa},    // SetClassMaxCost::MaxCostLOD3 - hugeModelClass (3)
+                  },
+            },
+
+            patch_set{
+               .name = "Default Explosion VisibleRadius Increase",
+               .patches =
+                  {
+                     patch{0x143ca3 + 0x6, 0x42700000, 0x461c4000}, // Increased from 60 to 10000
                   },
             },
          },
