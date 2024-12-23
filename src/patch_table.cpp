@@ -112,7 +112,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "renderRadius Limit Extension",
                .patches =
                   {
-                     //patch{0x64793c, 0x461c4000, 0x47c35000},         //RenderRadius float
+                     patch{0x64793c, 0x461c4000, 0x47c35000},         //RenderRadius float
                      //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
                      //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
                      patch{0x674cb0, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
@@ -246,7 +246,7 @@ const exe_patch_list patch_lists[EXE_COUNT] = {
                .name = "renderRadius Limit Extension",
                .patches =
                   {
-                     //patch{0x64793c, 0x461c4000, 0x47c35000},         //RenderRadius float
+                     //patch{0x64793c, 0x461c4000, 0x47c35000},       //RenderRadius float
                      //patch{0x417956 + 0x1, 0x461c4000, 0x47c35000}, //RedCamera::SetFrustum call
                      //patch{0x40ae17 + 0x7, 0x461c4000, 0x47c35000}, //RedRenderer::internalUpdateSceneConstants float 1
                      patch{0x3b1f94, 0x461c4000, 0x47c35000},         //ProjectionVectorZ float
