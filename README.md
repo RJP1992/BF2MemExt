@@ -5,6 +5,14 @@ Tool for patching SWBF2 (2005) to extend it's memory limits.
 - DLC Mission Limit Extension. Increased from 500 to 4096. This lets more mods be installed at once, provided that don't conflict and no other limits are hit.
 - Runtime Heap Extension. This makes it **much** harder for modders to hit "Allocating X bytes failed - no free blocks left in Heap 5 (Runtime)" errors.
 - SoundParameterized Layer Limit Extension. This keeps maps with lot's of flyers and entities that use `EngineSound` from crashing.
+- Sound Limit Extension. Increases sound memory to about 250MB
+- High-Res Animation Limit Extension. Enables more high-res soldiers on screen at once (limited currently by the codes use of an 8-bit integer)
+- Matrix/Item Pool Limit Extension. Matrix pool (and related) extension so the above patch doesn't cause a crash
+- nearScene Extension. Massively increased nearScene (100000 is used on every map)
+- LOD Limit Extension. Increased LOD threshold caps (these may be polygon limits, unsure ATM)
+- Default Explosion VisibleRadius Increase. Increased the explosion view distance to around 10000, though this is overridden if specified in an ODF
+- RenderRadius Increase. Stops objects being cut off at large distances (roughly 10,000 game units)
+- String Pool Increase.
 
 ## Supported Versions
 
