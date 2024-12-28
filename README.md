@@ -28,3 +28,9 @@ If you're interested in seeing another version of the game supported feel free t
 The tool itself is a simple Win32 GUI app. Launch it, click "Patch Executable", browse to your game's executable (the one named `BattlefrontII.exe` and is in the same folder as your `Addon` folder) and click Open. The tool will then patch the executable, if it recognizes the executable and is able to patch it you'll get a success message.
 
 If it fails the executable will left unmodified. Replacing it is the final step it does after everything else has succeeded.
+
+## Credits
+
+- Sleepy - For the patcher codebase and initial patches (DLC extension, runtime and soundlayer fix).
+- Abkarino & Antstafer - For letting me get a look at their EGM patcher source before it went public, enabling me to easily transfer some of their patches over to BF2 (high-res soldier and matrix pool patches).
+- S1thK3nny and various others (please let me know if you've tested in the past, as I've forgotten 💀) - Bug finding and stress testing.
