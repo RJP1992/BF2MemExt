@@ -12,7 +12,9 @@ Tool for patching SWBF2 (2005) to extend it's memory limits.
 - LOD Limit Extension. Increased LOD threshold caps (these may be polygon limits, unsure ATM)
 - Default Explosion VisibleRadius Increase. Increased the explosion view distance to around 10000, though this is overridden if specified in an ODF
 - RenderRadius Increase. Stops objects being cut off at large distances (roughly 10,000 game units)
-- String Pool Increase.
+- String Pool Increase. Mainly for the dbug exe, should stop related crashes.
+- LightingState Pool Limit Extension. Lighting pool is now bigger, and maps can have more lights without crashing.
+- RenderItem Pool Limit Extension. RenderItem pool is nnow bigger, didn't cause a crash in the first place but did cause graphical issues.
 
 ## Supported Versions
 
