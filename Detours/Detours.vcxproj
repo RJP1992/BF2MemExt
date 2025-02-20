@@ -22,8 +22,6 @@
     <ClInclude Include="include\detours.h" />
     <ClInclude Include="include\detver.h" />
     <ClInclude Include="include\syelog.h" />
-    <ClInclude Include="include\detours.h" />
-    <ClInclude Include="include\detver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
