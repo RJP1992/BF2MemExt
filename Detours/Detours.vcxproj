@@ -22,8 +22,8 @@
     <ClInclude Include="include\detours.h" />
     <ClInclude Include="include\detver.h" />
     <ClInclude Include="include\syelog.h" />
-    <ClInclude Include="src\detours.h" />
-    <ClInclude Include="src\detver.h" />
+    <ClInclude Include="include\detours.h" />
+    <ClInclude Include="include\detver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -77,6 +77,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalIncludeDirectories>C:\Users\tehpa\source\repos\BF2MemExt\Detours\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -97,6 +98,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalIncludeDirectories>C:\Users\tehpa\source\repos\BF2MemExt\Detours\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
