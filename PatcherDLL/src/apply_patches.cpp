@@ -30,24 +30,42 @@ static auto resolve_address(uintptr_t virtual_address, const uintptr_t relocated
 }
 
 static bool apply_patch(const patch& patch, const uintptr_t relocated_executable_base,
-                        const slim_vector<section_info>& sections)
+    const slim_vector<section_info>& sections)
 {
-   char* patch_address = patch.flags.file_offset
-                            ? resolve_file_address(patch.address, sections)
-                            : resolve_address(patch.address, relocated_executable_base);
+    char* patch_address = patch.flags.file_offset
+        ? resolve_file_address(patch.address, sections)
+        : resolve_address(patch.address, relocated_executable_base);
 
-   const uint32_t expected_value = patch.flags.expected_is_va
-                                      ? patch.expected_value - unrelocated_executable_base + relocated_executable_base
-                                      : patch.expected_value;
+    // Validate the current memory content.
+    if (patch.flags.values_are_8bit) {
 
-   if (not memeq(patch_address, sizeof(expected_value), &expected_value, sizeof(expected_value))) {
-      return false;
-   }
+        // Cast the computed expected value to 8-bit.
+        uint8_t expected_8bit = patch.flags.expected_is_va
+            ? static_cast<uint8_t>(patch.expected_value - unrelocated_executable_base + relocated_executable_base)
+            : static_cast<uint8_t>(patch.expected_value);
+        if (!memeq(patch_address, sizeof(expected_8bit), &expected_8bit, sizeof(expected_8bit)))
+            return false;
 
-   memcpy(patch_address, &patch.replacement_value, sizeof(patch.replacement_value));
+        // Cast the replacement value to 8-bit.
+        uint8_t replacement_8bit = static_cast<uint8_t>(patch.replacement_value);
+        memcpy(patch_address, &replacement_8bit, sizeof(expected_8bit));
+    }
+    else {
+        // Compute the expected value in 32-bit form.
+        uint32_t expected_32bit = patch.flags.expected_is_va
+            ? patch.expected_value - unrelocated_executable_base + relocated_executable_base
+            : patch.expected_value;
+        if (!memeq(patch_address, sizeof(expected_32bit), &expected_32bit, sizeof(expected_32bit)))
+            return false;
 
-   return true;
+        // Pull the 32-bit value
+        uint32_t replacement_32bit = patch.replacement_value;
+        memcpy(patch_address, &replacement_32bit, sizeof(expected_32bit));
+    }
+
+    return true;
 }
+
 
 bool apply_patches(const uintptr_t relocated_executable_base, const slim_vector<section_info>& sections)
 {

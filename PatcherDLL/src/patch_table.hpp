@@ -4,15 +4,18 @@
 
 #include "slim_vector.hpp"
 
-#define PATCH_COUNT 3
+#define PATCH_COUNT 13
 #define EXE_COUNT 3
 
 struct patch_flags {
-   /// @brief Address represents a file offset instead of a virtual an unrelocated virtual address.
+   /// @brief Address represents a file offset instead of a virtual or unrelocated virtual address.
    bool file_offset : 1 = false;
 
-   /// expected_value is an unrelocated virtual address (what would be displayed in tools like Ghidra/IDA)
+   /// expected_value is an unrelocated virtual address pointer vs a numerical value
    bool expected_is_va : 1 = false;
+
+   /// both the expected and replacement values are 8bit integers vs 32bit
+   bool values_are_8bit : 1 = false;
 };
 
 struct patch {
