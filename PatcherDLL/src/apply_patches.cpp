@@ -66,6 +66,35 @@ static bool apply_patch(const patch& patch, const uintptr_t relocated_executable
     return true;
 }
 
+static bool apply_strpatch(const strpatch& strpatch, const uintptr_t relocated_executable_base,
+    const slim_vector<section_info>& sections)
+{
+    char* patch_address = strpatch.flags.file_offset
+        ? resolve_file_address(strpatch.address, sections)
+        : resolve_address(strpatch.address, relocated_executable_base);
+
+    // Ensure that the replacement string is provided and not empty.
+    if (!strpatch.replacement_string || strpatch.replacement_string[0] == '\0')
+        return false;
+
+    if (strpatch.expected_string) {
+        // Expected string provided; verify that the memory matches it.
+        size_t expected_len = strlen(strpatch.expected_string) + 1;
+        if (memcmp(patch_address, strpatch.expected_string, expected_len) != 0)
+            return false;
+    }
+    else {
+        // No expected string provided, so we treat it as expecting empty data.
+        if (*patch_address != '\0')
+            return false;
+    }
+
+    // Write the replacement string.
+    size_t replacement_len = strlen(strpatch.replacement_string) + 1;
+    const char* replacement_str = strpatch.replacement_string;
+    memcpy(patch_address, replacement_str, replacement_len);
+    return true;
+}
 
 bool apply_patches(const uintptr_t relocated_executable_base, const slim_vector<section_info>& sections)
 {
@@ -99,13 +128,27 @@ bool apply_patches(const uintptr_t relocated_executable_base, const slim_vector<
          for (const patch& patch : set.patches) {
             if (not apply_patch(patch, relocated_executable_base, sections)) {
                log.printf(R"(Failed to apply patch
-   address = %x 
-   expected_value = %x 
-   replacement_value = %x
-   flags = {.file_offset = %i, .expected_is_va = %i}
-)",
+                               address = %x 
+                               expected_value = %x 
+                               replacement_value = %x
+                               flags = {.file_offset = %i, .expected_is_va = %i, .values_are_8bit = %i}
+                            )",
                           patch.address, patch.expected_value, patch.replacement_value,
-                          (int)patch.flags.file_offset, (int)patch.flags.expected_is_va);
+                          (int)patch.flags.file_offset, (int)patch.flags.expected_is_va, (int)patch.flags.values_are_8bit);
+
+               return false;
+            }
+         }
+         for (const strpatch& strpatch : set.str_patches) {
+            if (not apply_strpatch(strpatch, relocated_executable_base, sections)) {
+               log.printf(R"(Failed to apply patch
+                               address = %x 
+                               expected_string = %s 
+                               replacement_string = %s
+                               flags = {.file_offset = %i}
+                            )",
+                          strpatch.address, strpatch.expected_string, strpatch.replacement_string,
+                          (int)strpatch.flags.file_offset);
 
                return false;
             }
