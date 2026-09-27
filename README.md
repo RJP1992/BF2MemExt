@@ -1,3 +1,5 @@
+THIS REPO IS NOW DEFUNCT! PLEASE USE EITHER https://github.com/PrismaticFlower/BF2FlowerPatch OR https://github.com/S1thK3nny/BF2GameExt!
+
 Tool for patching SWBF2 (2005) to extend it's memory limits.
 
 ## Current Patches
